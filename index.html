@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GimControl — Gestión de Gimnasio</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- PWA: manifiesto -->
+<link rel="manifest" href="manifest.json" />
+
+<!-- Iconos para Android y algunos navegadores -->
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.json">
+
+<!-- Meta para tema y iOS -->
+<meta name="theme-color" content="#1f6feb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GimControl">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" class="logo" aria-hidden="true"><path d="M3 12h3v8H3zM9 4h3v16H9zM15 8h3v12h-3z" /></svg>
+      <h1>GimControl</h1>
+    </div>
+    <nav>
+      <button data-view="members" class="nav-btn active">Socios</button>
+      <button data-view="attendance" class="nav-btn">Asistencia</button>
+      <button data-view="schedule" class="nav-btn">Horarios</button>
+      <button data-view="payments" class="nav-btn">Cobros</button>
+      <button data-view="reports" class="nav-btn">Reportes</button>
+    </nav>
+  </header>
+
+  <main id="app">
+    <!-- Members -->
+    <section id="members" class="view">
+      <div class="panel">
+        <h2>Socios</h2>
+        <form id="memberForm" class="form-inline">
+          <input id="m_name" placeholder="Nombre completo" required />
+          <input id="m_phone" placeholder="Teléfono" />
+          <input id="m_email" placeholder="Email" type="email" />
+          <select id="m_plan">
+            <option value="mensual">Mensual</option>
+            <option value="trimestral">Trimestral</option>
+            <option value="anual">Anual</option>
+            <option value="clase">Clase por clase</option>
+          </select>
+          <button type="submit">Agregar socio</button>
+        </form>
+
+        <div class="toolbar">
+          <input id="searchMembers" placeholder="Buscar por nombre o id" />
+          <button id="exportMembers">Exportar CSV</button>
+        </div>
+
+        <table id="membersTable" class="table">
+          <thead><tr><th>ID</th><th>Nombre</th><th>Plan</th><th>Teléfono</th><th>Email</th><th>Acciones</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Attendance -->
+    <section id="attendance" class="view hidden">
+      <div class="panel">
+        <h2>Registro de asistencia</h2>
+        <div class="form-inline">
+          <input id="att_search" placeholder="Buscar socio por nombre o id" />
+          <button id="quickCheck">Registrar asistencia</button>
+          <select id="showAttendanceRange">
+            <option value="today">Hoy</option>
+            <option value="7">Últimos 7 días</option>
+            <option value="30">Últimos 30 días</option>
+            <option value="all">Todos</option>
+          </select>
+        </div>
+
+        <table id="attendanceTable" class="table">
+          <thead><tr><th>Fecha</th><th>ID socio</th><th>Nombre</th><th>Hora</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Schedule -->
+    <section id="schedule" class="view hidden">
+      <div class="panel">
+        <h2>Horarios de entrenamiento</h2>
+        <form id="scheduleForm" class="form-inline">
+          <input id="s_title" placeholder="Clase / Turno" required />
+          <select id="s_day">
+            <option value="Lunes">Lunes</option>
+            <option value="Martes">Martes</option>
+            <option value="Miércoles">Miércoles</option>
+            <option value="Jueves">Jueves</option>
+            <option value="Viernes">Viernes</option>
+            
+          </select>
+          <input id="s_start" type="time" required />
+          <input id="s_end" type="time" required />
+          <input id="s_trainer" placeholder="Entrenador" />
+          <button type="submit">Guardar horario</button>
+        </form>
+
+        <div id="weekSchedule" class="schedule-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- Payments -->
+    <section id="payments" class="view hidden">
+      <div class="panel">
+        <h2>Cobros y cuotas</h2>
+
+        <form id="paymentForm" class="form-inline">
+          <input id="p_member_id" placeholder="ID socio" required />
+          <input id="p_amount" placeholder="Monto" type="number" step="0.01" required />
+          <select id="p_method">
+            <option value="efectivo">Efectivo</option>
+            <option value="tarjeta">Tarjeta</option>
+            <option value="transferencia">Transferencia</option>
+</select>
+          <button type="submit">Registrar pago</button>
+        </form>
+
+        <div class="toolbar">
+          <button id="exportPayments">Exportar CSV</button>
+          <input id="p_search" placeholder="Buscar historial por socio" />
+        </div>
+
+        <table id="paymentsTable" class="table">
+          <thead><tr><th>Fecha</th><th>ID socio</th><th>Nombre</th><th>Monto</th><th>Método</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Reports -->
+    <section id="reports" class="view hidden">
+      <div class="panel">
+        <h2>Reportes</h2>
+        <div class="report-grid">
+          <div class="card">
+            <h3>Socios totales</h3>
+            <p id="rep_total_members">0</p>
+          </div>
+          <div class="card">
+            <h3>Asistencias hoy</h3>
+            <p id="rep_att_today">0</p>
+          </div>
+          <div class="card">
+            <h3>Cuotas cobradas (30 días)</h3>
+            <p id="rep_30_income">0</p>
+          </div>
+        </div>
+
+        <h3>Buscar deudas / historial</h3>
+        <div class="form-inline">
+          <input id="rep_search_member" placeholder="ID socio o nombre" />
+          <button id="rep_show_history">Mostrar historial</button>
+        </div>
+
+        <table id="rep_history_table" class="table">
+          <thead><tr><th>Tipo</th><th>Fecha</th><th>Detalle</th><th>Monto</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <small>GimControl — Prototipo · Datos guardados en el navegador · Matias</small>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(reg => console.log('ServiceWorker registrado', reg.scope))
+        .catch(err => console.warn('Error registrando ServiceWorker', err));
+    });
+  }
+</script>
+</body>
+</html>

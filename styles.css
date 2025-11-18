@@ -1,0 +1,45 @@
+:root{
+  --bg:#0f1724;
+  --card:#0b1220;
+  --accent:#1f6feb;
+  --muted:#94a3b8;
+  --glass: rgba(255,255,255,0.03);
+  --radius:10px;
+  --gap:12px;
+  font-family: Inter, system-ui, -apple-system, "Helvetica Neue", Arial;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:linear-gradient(180deg,#071025,#071733);color:#e6eef8}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:linear-gradient(90deg,rgba(255,255,255,0.03),transparent);backdrop-filter:blur(4px);
+}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:36px;height:36px;fill:var(--accent)}
+h1{font-size:18px;margin:0}
+nav{display:flex;gap:8px}
+.nav-btn{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:8px;color:var(--muted);cursor:pointer}
+.nav-btn.active{background:var(--accent);color:white;border-color:transparent}
+
+main{padding:18px;min-height:70vh}
+.panel{background:var(--card);padding:14px;border-radius:var(--radius);box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+.form-inline{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.form-inline input, .form-inline select{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:var(--glass);color:inherit;min-width:120px}
+.form-inline button{padding:8px 12px;border-radius:8px;border:0;background:var(--accent);color:white;cursor:pointer}
+
+.table{width:100%;border-collapse:collapse;margin-top:8px}
+.table thead th{text-align:left;padding:8px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+.table tbody td{padding:8px;border-bottom:1px dashed rgba(255,255,255,0.02)}
+
+.hidden{display:none}
+.toolbar{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+.schedule-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:12px}
+.schedule-grid .slot{background:rgba(255,255,255,0.03);padding:8px;border-radius:8px;min-height:80px;font-size:13px}
+.schedule-grid .slot h4{margin:0 0 6px 0;font-size:13px;color:var(--accent)}
+.footer{padding:12px;text-align:center;color:var(--muted)}
+
+.report-grid{display:flex;gap:12px;margin-bottom:12px}
+.card{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;flex:1}
+@media (max-width:800px){
+  .schedule-grid{grid-template-columns:repeat(2,1fr)}
+  nav{display:none}
+}
