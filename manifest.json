@@ -1,5 +1,5 @@
 {
-  "name": "GimControl",
+  "name": "GYM MT",
   "short_name": "GimControl",
   "start_url": ".",
   "display": "standalone",
@@ -18,3 +18,4 @@
     }
   ]
 }
+
